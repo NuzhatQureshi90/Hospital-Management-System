@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hospital Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginPage" class="login">
+  <h2>Hospital Login</h2>
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="login()">Login</button>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="dashboard">
+
+  <div class="sidebar">
+    <h2>Hospital</h2>
+
+    <button onclick="showTable('patients')">Patients</button>
+    <button onclick="showTable('doctors')">Doctors</button>
+    <button onclick="showTable('departments')">Departments</button>
+    <button onclick="showTable('nurses')">Nurses</button>
+    <button onclick="showTable('rooms')">Rooms</button>
+    <button onclick="showTable('appointments')">Appointments</button>
+    <button onclick="showTable('bills')">Bills</button>
+    <button onclick="showTable('payments')">Payments</button>
+    <button onclick="showTable('medicines')">Medicines</button>
+    <button onclick="showTable('labtests')">Lab Tests</button>
+    <button onclick="showTable('admissions')">Admissions</button>
+    <button onclick="showTable('emergency')">Emergency</button>
+    <button onclick="showTable('inventory')">Inventory</button>
+    <button onclick="showTable('prescriptions')">Prescriptions</button>
+    <button onclick="showTable('overview')">Overview</button>
+  </div>
+
+  <div class="main">
+    <h1>Hospital Dashboard</h1>
+
+    <div id="tableData"></div>
+
+    <canvas id="chart"></canvas>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

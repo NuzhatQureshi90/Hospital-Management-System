@@ -1,0 +1,54 @@
+body {
+  margin: 0;
+  font-family: Arial;
+}
+
+/* LOGIN */
+.login {
+  text-align: center;
+  margin-top: 100px;
+}
+
+.login input {
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+}
+
+/* DASHBOARD */
+.dashboard {
+  display: none;
+  display: flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 220px;
+  background: #2c3e50;
+  color: white;
+  height: 100vh;
+  padding: 10px;
+}
+
+.sidebar button {
+  width: 100%;
+  margin: 5px 0;
+  padding: 10px;
+  background: #34495e;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* MAIN */
+.main {
+  flex: 1;
+  padding: 20px;
+  background: #f4f4f4;
+}
+
+#tableData {
+  background: white;
+  padding: 20px;
+  margin-bottom: 20px;
+}

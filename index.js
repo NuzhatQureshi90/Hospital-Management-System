@@ -1,149 +1,59 @@
-const express = require("express");
-const { Pool } = require("pg");
 require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const path = require("path");
+const pool = require('./db');
 
 const app = express();
 const port = process.env.PORT || 5000;
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
-});
+app.use(cors());
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "frontend")));
 
+// DB Test
 pool.query("SELECT NOW()", (err, res) => {
   if (err) console.log("DB Error:", err.message);
   else console.log("Neon DB Connected ✅", res.rows[0].now);
 });
 
+// Home
 app.get("/", async (req, res) => {
   try {
     const result = await pool.query("SELECT NOW()");
-    res.send("Connected to Neon! Time: " + result.rows[0].now);
+    res.json({ message: "Hospital Backend Running 🚀", time: result.rows[0].now });
   } catch (err) {
-    res.send("Error: " + err.message);
+    res.status(500).json({ error: err.message });
   }
 });
 
+// Helper Function
+const getTable = (table) => async (req, res) => {
+  try {
+    const result = await pool.query(`SELECT * FROM ${table}`);
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Routes
+app.get("/departments",        getTable("departments"));
+app.get("/doctors",            getTable("doctors"));
+app.get("/patients",           getTable("patients"));
+app.get("/nurses",             getTable("nurses"));
+app.get("/rooms",              getTable("rooms"));
+app.get("/admissions",         getTable("admissions"));
+app.get("/appointments",       getTable("appointments"));
+app.get("/prescriptions",      getTable("prescriptions"));
+app.get("/medicines",          getTable("medicines"));
+app.get("/prescription-medicines", getTable("prescription_medicines"));
+app.get("/lab-tests",          getTable("lab_tests"));
+app.get("/bills",              getTable("bills"));
+app.get("/payments",           getTable("payments"));
+app.get("/emergency-cases",    getTable("emergency_cases"));
+app.get("/inventory",          getTable("inventory"));
+
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
-
-// =====================
-// DEPARTMENTS
-// =====================
-app.get("/departments", async (req, res) => {
-  const result = await pool.query("SELECT * FROM departments");
-  res.json(result.rows);
-});
-
-// =====================
-// DOCTORS
-// =====================
-app.get("/doctors", async (req, res) => {
-  const result = await pool.query("SELECT * FROM doctors");
-  res.json(result.rows);
-});
-
-// =====================
-// PATIENTS
-// =====================
-app.get("/patients", async (req, res) => {
-  const result = await pool.query("SELECT * FROM patients");
-  res.json(result.rows);
-});
-
-// =====================
-// NURSES
-// =====================
-app.get("/nurses", async (req, res) => {
-  const result = await pool.query("SELECT * FROM nurses");
-  res.json(result.rows);
-});
-
-// =====================
-// ROOMS
-// =====================
-app.get("/rooms", async (req, res) => {
-  const result = await pool.query("SELECT * FROM rooms");
-  res.json(result.rows);
-});
-
-// =====================
-// ADMISSIONS
-// =====================
-app.get("/admissions", async (req, res) => {
-  const result = await pool.query("SELECT * FROM admissions");
-  res.json(result.rows);
-});
-
-// =====================
-// APPOINTMENTS
-// =====================
-app.get("/appointments", async (req, res) => {
-  const result = await pool.query("SELECT * FROM appointments");
-  res.json(result.rows);
-});
-
-// =====================
-// PRESCRIPTIONS
-// =====================
-app.get("/prescriptions", async (req, res) => {
-  const result = await pool.query("SELECT * FROM prescriptions");
-  res.json(result.rows);
-});
-
-// =====================
-// MEDICINES
-// =====================
-app.get("/medicines", async (req, res) => {
-  const result = await pool.query("SELECT * FROM medicines");
-  res.json(result.rows);
-});
-
-// =====================
-// PRESCRIPTION MEDICINES
-// =====================
-app.get("/prescription-medicines", async (req, res) => {
-  const result = await pool.query("SELECT * FROM prescription_medicines");
-  res.json(result.rows);
-});
-
-// =====================
-// LAB TESTS
-// =====================
-app.get("/lab-tests", async (req, res) => {
-  const result = await pool.query("SELECT * FROM lab_tests");
-  res.json(result.rows);
-});
-
-// =====================
-// BILLS
-// =====================
-app.get("/bills", async (req, res) => {
-  const result = await pool.query("SELECT * FROM bills");
-  res.json(result.rows);
-});
-
-// =====================
-// PAYMENTS
-// =====================
-app.get("/payments", async (req, res) => {
-  const result = await pool.query("SELECT * FROM payments");
-  res.json(result.rows);
-});
-
-// =====================
-// EMERGENCY CASES
-// =====================
-app.get("/emergency-cases", async (req, res) => {
-  const result = await pool.query("SELECT * FROM emergency_cases");
-  res.json(result.rows);
-});
-
-// =====================
-// INVENTORY
-// =====================
-app.get("/inventory", async (req, res) => {
-  const result = await pool.query("SELECT * FROM inventory");
-  res.json(result.rows);
+  console.log(`🚀 Server running on port ${port}`);
 });

@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "dev": "node index.js"
-},
+    "dev": "node index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NuzhatQureshi90/Hospital-Management-System.git"
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/NuzhatQureshi90/Hospital-Management-System#readme",
   "dependencies": {
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "pg": "^8.21.0"
